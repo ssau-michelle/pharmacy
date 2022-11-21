@@ -1,8 +1,14 @@
 import { Button, Heading, Pane, TextInput } from "evergreen-ui";
-import logo from "../images/logo.svg";
-import { Link } from "react-router-dom";
+import logo from "../../images/logo.svg";
+import { Link, useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+
+  const onSubmit = () => {
+    navigate("/search");
+  };
+
   return (
     <Pane
       display="flex"
@@ -11,7 +17,7 @@ const LoginPage = () => {
       justifyContent="center"
       alignItems="center"
     >
-      <form>
+      <form onSubmit={onSubmit}>
         <Pane display="flex" flexDirection="column" gap={20}>
           <Pane textAlign="center">
             <img src={logo} alt="Logo" />
