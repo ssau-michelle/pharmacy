@@ -1,4 +1,4 @@
-import { Button, Heading, Pane, TextInput } from "evergreen-ui";
+import { Button, Heading, Pane, Text, TextInput } from "evergreen-ui";
 import logo from "../../images/logo.svg";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -6,7 +6,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   const onSubmit = () => {
-    navigate("/search");
+    navigate("/medicaments");
   };
 
   return (
@@ -42,7 +42,9 @@ const LoginPage = () => {
               Войти
             </Button>
 
-            <Link to="/register">Зарегистироваться</Link>
+            <Link to="/register">
+              <Text>Зарегистироваться</Text>
+            </Link>
           </Pane>
         </Pane>
       </form>

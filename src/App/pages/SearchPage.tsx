@@ -1,8 +1,19 @@
-import { Button, Heading, Pane, TextInputField } from "evergreen-ui";
+import {
+  Button,
+  Heading,
+  Pane,
+  Paragraph,
+  Spinner,
+  Text,
+  TextInputField,
+} from "evergreen-ui";
 import Header from "../components/Header";
 import { useEffect, useState } from "react";
 import { StringParam, useQueryParams } from "use-query-params";
 import { ISearchProps, searchMedicaments } from "../../api/pharmacies";
+import { IMedicamentSearchResult } from "../../types";
+import mockMedicineImage from "../../images/mockMedicineImage.png";
+import { Link } from "react-router-dom";
 
 const SearchFields = () => {
   return (
@@ -72,6 +83,79 @@ const SearchFields = () => {
   );
 };
 
+interface ISearchResultsProps {
+  searchResults: IMedicamentSearchResult[] | null;
+}
+
+const SearchResults = ({ searchResults }: ISearchResultsProps) => (
+  <>
+    <Heading size={800} marginBottom={16}>
+      Результаты поиска
+    </Heading>
+
+    {searchResults ? (
+      <Pane
+        borderTop
+        borderLeft
+        display="grid"
+        gridTemplateColumns="repeat(4, 1fr)"
+        marginBottom={20}
+      >
+        {searchResults.map((sr) => (
+          <Pane
+            key={sr.medicament.id}
+            display="flex"
+            flexDirection="column"
+            justifyContent="space-between"
+            borderBottom
+            borderRight
+            padding={16}
+          >
+            <Pane>
+              <Pane textAlign="center">
+                <img src={mockMedicineImage} alt="medicine icon" width={200} />
+              </Pane>
+
+              <Paragraph size={500} fontWeight="bold" textTransform="uppercase">
+                {sr.medicament.name}
+              </Paragraph>
+              <Paragraph>{sr.medicament.manufacturer.name}</Paragraph>
+              <Paragraph>{sr.medicament.releaseForm.name}</Paragraph>
+            </Pane>
+
+            <Pane>
+              <Paragraph textAlign="right">Цена:</Paragraph>
+              <Paragraph textAlign="right">
+                от{" "}
+                <Text size={500} fontWeight="bold">
+                  {sr.minPrice}
+                </Text>{" "}
+                ₽
+              </Paragraph>
+
+              <Pane textAlign="center">
+                <Link
+                  to={`/medicaments/${sr.medicament.id}`}
+                  className="link-not-underlined"
+                >
+                  <Button
+                    borderRadius={16}
+                    appearance="primary"
+                  >{`Выбрать из ${sr.pharmacyCount}`}</Button>
+                </Link>
+              </Pane>
+            </Pane>
+          </Pane>
+        ))}
+      </Pane>
+    ) : (
+      <Pane flex={1} display="flex" justifyContent="center" alignItems="center">
+        <Spinner />
+      </Pane>
+    )}
+  </>
+);
+
 const SearchPage = () => {
   const [query] = useQueryParams({
     name: StringParam,
@@ -82,7 +166,7 @@ const SearchPage = () => {
     releaseForm: StringParam,
   });
   const [filteredQuery, setFilteredQuery] = useState<ISearchProps>({});
-  const [medicaments, setMedicaments] = useState([]);
+  const [medicaments, setMedicaments] = useState(null);
 
   const isObjectEmpty = (obj: any) => {
     return Object.keys(obj).length === 0;
@@ -123,7 +207,7 @@ const SearchPage = () => {
         {isObjectEmpty(filteredQuery) ? (
           <SearchFields />
         ) : (
-          <div>{JSON.stringify(medicaments)}</div>
+          <SearchResults searchResults={medicaments} />
         )}
       </Pane>
     </Pane>

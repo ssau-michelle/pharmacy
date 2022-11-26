@@ -15,5 +15,9 @@ html, body, #root {
 }
 
 .search-field {
-  width: 600px!important;
+  width: 600px !important;
+}
+
+.link-not-underlined {
+  text-decoration: none;
 }

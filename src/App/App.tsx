@@ -11,7 +11,7 @@ function App() {
       <Route path="/" element={<Navigate to="/login" />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
-      <Route path="/search" element={<SearchPage />} />
+      <Route path="/medicaments" element={<SearchPage />} />
     </Routes>
   );
 }
