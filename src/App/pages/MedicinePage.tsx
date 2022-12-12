@@ -11,18 +11,25 @@ import Header from "../components/Header";
 import mockMedicineImage from "../../images/mockMedicineImage.png";
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { IMedicament } from "../../types";
-import { getMedicament } from "../../api/pharmacies";
+import { IAvailability, IMedicament } from "../../types";
+import { getAllAvailabilities, getMedicament } from "../../api/pharmacies";
 
 const MedicinePage = () => {
   const { id } = useParams();
   const [medicament, setMedicament] = useState<IMedicament | null>(null);
+  const [availabilities, setAvailabilities] = useState<IAvailability[] | null>(
+    null
+  );
 
   useEffect(() => {
     if (!id) return;
 
     getMedicament(id)
       .then(({ data }) => setMedicament(data))
+      .catch((err) => console.error(err));
+
+    getAllAvailabilities(id)
+      .then(({ data }) => setAvailabilities(data))
       .catch((err) => console.error(err));
   }, [id]);
 
@@ -71,25 +78,40 @@ const MedicinePage = () => {
             Наличие в аптеках
           </Heading>
 
-          <Table>
-            <Table.Head paddingRight={0}>
-              <Table.TextHeaderCell>Аптека</Table.TextHeaderCell>
-              <Table.TextHeaderCell flex={2}>Адрес</Table.TextHeaderCell>
-              <Table.TextHeaderCell>Количество</Table.TextHeaderCell>
-              <Table.TextHeaderCell>Цена</Table.TextHeaderCell>
-            </Table.Head>
+          {availabilities ? (
+            <Table>
+              <Table.Head paddingRight={0}>
+                <Table.TextHeaderCell>Аптека</Table.TextHeaderCell>
+                <Table.TextHeaderCell flex={2}>Адрес</Table.TextHeaderCell>
+                <Table.TextHeaderCell>Количество</Table.TextHeaderCell>
+                <Table.TextHeaderCell>Цена</Table.TextHeaderCell>
+              </Table.Head>
 
-            <Table.Body>
-              <Table.Row>
-                <Table.TextCell>Вита</Table.TextCell>
-                <Table.TextCell flex={2}>
-                  ул. Московское шоссе, 34Б
-                </Table.TextCell>
-                <Table.TextCell>24 шт.</Table.TextCell>
-                <Table.TextCell isNumber>390</Table.TextCell>
-              </Table.Row>
-            </Table.Body>
-          </Table>
+              <Table.Body>
+                {availabilities.map((a) => (
+                  <Table.Row>
+                    <Table.TextCell>
+                      <a href={a.pharmacyAddress.pharmacy.site}>
+                        {a.pharmacyAddress.pharmacy.name}
+                      </a>
+                    </Table.TextCell>
+
+                    <Table.TextCell flex={2}>
+                      {a.pharmacyAddress.address}
+                    </Table.TextCell>
+
+                    <Table.TextCell>{a.medicamentCount.count}</Table.TextCell>
+
+                    <Table.TextCell isNumber>{a.price} ₽</Table.TextCell>
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table>
+          ) : (
+            <Pane display="flex" justifyContent="center" marginTop={80}>
+              <Spinner />
+            </Pane>
+          )}
         </Pane>
       ) : (
         <Pane

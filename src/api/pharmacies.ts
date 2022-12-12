@@ -1,5 +1,5 @@
 import axios from "axios";
-import { IMedicament, IMedicamentSearchResult } from "../types";
+import { IAvailability, IMedicament, IMedicamentSearchResult } from "../types";
 
 export interface ISearchProps {
   name?: string;
@@ -23,4 +23,10 @@ export const searchMedicaments = (query: ISearchProps) => {
 
 export const getMedicament = (id: string) => {
   return instance.get<IMedicament>(`/api/medicaments/byId/${id}`);
+};
+
+export const getAllAvailabilities = (id: string) => {
+  return instance.get<IAvailability[]>(
+    `/api/medicaments/getAllMedicamentAvailabilities/${id}`
+  );
 };

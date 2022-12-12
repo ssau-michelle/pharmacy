@@ -23,3 +23,22 @@ export interface IMedicamentSearchResult {
   minPrice: number;
   pharmacyCount: number;
 }
+
+export interface IAvailability {
+  id: number;
+  price: number;
+  medicamentCount: {
+    id: number;
+    count: string;
+  };
+  medicamentDosage: string;
+  pharmacyAddress: {
+    id: string;
+    address: string;
+    pharmacy: {
+      id: number;
+      name: string;
+      site: string;
+    };
+  };
+}

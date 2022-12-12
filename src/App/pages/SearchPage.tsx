@@ -120,8 +120,10 @@ const SearchResults = ({ searchResults }: ISearchResultsProps) => (
               <Paragraph size={500} fontWeight="bold" textTransform="uppercase">
                 {sr.medicament.name}
               </Paragraph>
-              <Paragraph>{sr.medicament.manufacturer.name}</Paragraph>
+
               <Badge color="blue">{sr.medicament.releaseForm.name}</Badge>
+
+              <Paragraph>{sr.medicament.manufacturer.name}</Paragraph>
             </Pane>
 
             <Pane>
