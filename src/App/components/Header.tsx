@@ -1,11 +1,22 @@
 import { Button, Heading, Pane } from "evergreen-ui";
 import logo from "../../images/logo.svg";
+import { useNavigate } from "react-router-dom";
 
 interface IProps {
   type?: "search" | "reminders";
 }
 
 const Header = ({ type }: IProps) => {
+  const navigate = useNavigate();
+
+  const onRemindersClickHandle = () => {
+    navigate("/reminders");
+  };
+
+  const onMedicamentsClickHandle = () => {
+    navigate("/medicaments");
+  };
+
   return (
     <Pane border marginBottom={16}>
       <Pane
@@ -24,11 +35,15 @@ const Header = ({ type }: IProps) => {
         </Pane>
 
         {type === "search" && (
-          <Button appearance="primary">Мои напоминания</Button>
+          <Button appearance="primary" onClick={onRemindersClickHandle}>
+            Мои напоминания
+          </Button>
         )}
 
         {type === "reminders" && (
-          <Button appearance="primary">Поиск лекарств</Button>
+          <Button appearance="primary" onClick={onMedicamentsClickHandle}>
+            Поиск лекарств
+          </Button>
         )}
       </Pane>
     </Pane>

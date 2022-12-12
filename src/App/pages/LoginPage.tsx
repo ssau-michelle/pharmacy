@@ -15,6 +15,8 @@ const LoginPage = () => {
     event.preventDefault();
     setError("");
 
+    localStorage.setItem("username", username);
+
     const body = {
       username,
       password,
