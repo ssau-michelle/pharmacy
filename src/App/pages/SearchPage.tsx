@@ -1,4 +1,5 @@
 import {
+  Badge,
   Button,
   Heading,
   Pane,
@@ -99,7 +100,7 @@ const SearchResults = ({ searchResults }: ISearchResultsProps) => (
         borderLeft
         display="grid"
         gridTemplateColumns="repeat(4, 1fr)"
-        marginBottom={20}
+        marginBottom={40}
       >
         {searchResults.map((sr) => (
           <Pane
@@ -120,7 +121,7 @@ const SearchResults = ({ searchResults }: ISearchResultsProps) => (
                 {sr.medicament.name}
               </Paragraph>
               <Paragraph>{sr.medicament.manufacturer.name}</Paragraph>
-              <Paragraph>{sr.medicament.releaseForm.name}</Paragraph>
+              <Badge color="blue">{sr.medicament.releaseForm.name}</Badge>
             </Pane>
 
             <Pane>
@@ -166,7 +167,9 @@ const SearchPage = () => {
     releaseForm: StringParam,
   });
   const [filteredQuery, setFilteredQuery] = useState<ISearchProps>({});
-  const [medicaments, setMedicaments] = useState(null);
+  const [medicaments, setMedicaments] = useState<
+    IMedicamentSearchResult[] | null
+  >(null);
 
   const isObjectEmpty = (obj: any) => {
     return Object.keys(obj).length === 0;

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { IMedicament, IMedicamentSearchResult } from "../types";
 
 export interface ISearchProps {
   name?: string;
@@ -14,5 +15,12 @@ const instance = axios.create({
 });
 
 export const searchMedicaments = (query: ISearchProps) => {
-  return instance.post("/api/medicaments/search", query);
+  return instance.post<IMedicamentSearchResult[]>(
+    "/api/medicaments/search",
+    query
+  );
+};
+
+export const getMedicament = (id: string) => {
+  return instance.get<IMedicament>(`/api/medicaments/byId/${id}`);
 };
