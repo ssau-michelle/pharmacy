@@ -88,8 +88,8 @@ const MedicinePage = () => {
               </Table.Head>
 
               <Table.Body>
-                {availabilities.map((a) => (
-                  <Table.Row>
+                {availabilities.map((a, index) => (
+                  <Table.Row key={index}>
                     <Table.TextCell>
                       <a href={a.pharmacyAddress.pharmacy.site}>
                         {a.pharmacyAddress.pharmacy.name}

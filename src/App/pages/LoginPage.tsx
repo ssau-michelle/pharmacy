@@ -21,7 +21,10 @@ const LoginPage = () => {
     };
     authUser(body)
       .then(() => navigate("/medicaments"))
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        setError(err.response.data.message);
+        console.error(err);
+      });
   };
 
   return (
