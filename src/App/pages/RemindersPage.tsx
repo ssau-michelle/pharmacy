@@ -24,22 +24,25 @@ const RemindersList = ({ reminders }: { reminders: IReminder[] | null }) => {
       <Table.Head paddingRight={0}>
         <Table.TextHeaderCell>Название</Table.TextHeaderCell>
         <Table.TextHeaderCell>Дозировка</Table.TextHeaderCell>
+        <Table.TextHeaderCell>Время приёма</Table.TextHeaderCell>
         <Table.TextHeaderCell>Начало курса</Table.TextHeaderCell>
         <Table.TextHeaderCell>Окончание курса</Table.TextHeaderCell>
       </Table.Head>
 
       <Table.Body>
-        {reminders.map((r, index) => (
-          <Table.Row key={index}>
-            <Table.TextCell>{r.medicament.name}</Table.TextCell>
+        {reminders.map((r, index) => {
+          const timeWithoutSecs = r.time?.slice(0, 5);
 
-            <Table.TextCell>{r.count}</Table.TextCell>
-
-            <Table.TextCell>{r.startDate}</Table.TextCell>
-
-            <Table.TextCell isNumber>{r.endDate}</Table.TextCell>
-          </Table.Row>
-        ))}
+          return (
+            <Table.Row key={index}>
+              <Table.TextCell>{r.medicament.name}</Table.TextCell>
+              <Table.TextCell isNumber>{r.count}</Table.TextCell>
+              <Table.TextCell>{timeWithoutSecs}</Table.TextCell>
+              <Table.TextCell>{r.startDate}</Table.TextCell>
+              <Table.TextCell>{r.endDate}</Table.TextCell>
+            </Table.Row>
+          );
+        })}
       </Table.Body>
     </Table>
   );

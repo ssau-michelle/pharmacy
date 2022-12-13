@@ -47,6 +47,7 @@ export interface IAvailability {
 export interface IReminder {
   id: number;
   count: number;
+  time: string;
   startDate: string;
   endDate: string;
   usr: any;

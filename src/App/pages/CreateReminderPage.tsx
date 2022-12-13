@@ -11,6 +11,7 @@ const CreateReminderPage = () => {
 
   const [medicament, setMedicament] = useState<IMedicament | null>(null);
   const [count, setCount] = useState<number | undefined>(undefined);
+  const [time, setTime] = useState<string | undefined>(undefined);
   const [startDate, setStartDate] = useState<string | undefined>(undefined);
   const [endDate, setEndDate] = useState<string | undefined>(undefined);
 
@@ -28,7 +29,14 @@ const CreateReminderPage = () => {
     event.preventDefault();
 
     const username = localStorage.getItem("username");
-    if (!medicamentId || !username || !count || !startDate || !endDate) {
+    if (
+      !medicamentId ||
+      !username ||
+      !count ||
+      !time ||
+      !startDate ||
+      !endDate
+    ) {
       console.error("Save reminder: Fields missing");
       return;
     }
@@ -36,6 +44,7 @@ const CreateReminderPage = () => {
     const body = {
       medicamentId: +medicamentId,
       count,
+      time,
       startDate,
       endDate,
       username,
@@ -92,7 +101,20 @@ const CreateReminderPage = () => {
               </Pane>
 
               <TextInputField
-                className="date-field"
+                className="date-time-field"
+                display="flex"
+                justifyContent="space-between"
+                name="time"
+                type="time"
+                label="Время приёма"
+                value={time}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setTime(e.target.value)
+                }
+              />
+
+              <TextInputField
+                className="date-time-field"
                 display="flex"
                 justifyContent="space-between"
                 name="startDate"
@@ -105,7 +127,7 @@ const CreateReminderPage = () => {
               />
 
               <TextInputField
-                className="date-field"
+                className="date-time-field"
                 display="flex"
                 justifyContent="space-between"
                 name="endDate"
@@ -122,7 +144,9 @@ const CreateReminderPage = () => {
                   type="submit"
                   appearance="primary"
                   width={120}
-                  disabled={!medicamentId || !count || !startDate || !endDate}
+                  disabled={
+                    !medicamentId || !count || !time || !startDate || !endDate
+                  }
                 >
                   Создать
                 </Button>

@@ -4,6 +4,7 @@ export interface IReminderSaveProps {
   startDate: string;
   endDate: string;
   count: number;
+  time: string;
   medicamentId: number;
   username: string;
 }
