@@ -13,7 +13,6 @@ import { useEffect, useState } from "react";
 import { StringParam, useQueryParams } from "use-query-params";
 import { ISearchProps, searchMedicaments } from "../../api/pharmacies";
 import { IMedicamentSearchResult } from "../../types";
-import mockMedicineImage from "../../images/mockMedicineImage.png";
 import { Link } from "react-router-dom";
 
 const SearchFields = () => {
@@ -114,7 +113,11 @@ const SearchResults = ({ searchResults }: ISearchResultsProps) => (
           >
             <Pane>
               <Pane textAlign="center">
-                <img src={mockMedicineImage} alt="medicine icon" width={200} />
+                <img
+                  className="medicine-image"
+                  src={`data:image/jpeg;base64,${sr.medicament.image}`}
+                  alt="medicine img"
+                />
               </Pane>
 
               <Paragraph size={500} fontWeight="bold" textTransform="uppercase">

@@ -11,6 +11,7 @@ export interface IMedicament {
   category: {
     name: string;
   };
+  image: string;
   manufacturer: IManufacturer;
   releaseForm: {
     id: number;
