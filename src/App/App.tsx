@@ -6,6 +6,7 @@ import RegisterPage from "./pages/RegisterPage";
 import SearchPage from "./pages/SearchPage";
 import MedicinePage from "./pages/MedicinePage";
 import RemindersPage from "./pages/RemindersPage";
+import CreateReminderPage from "./pages/CreateReminderPage";
 
 function App() {
   return (
@@ -16,6 +17,11 @@ function App() {
       <Route path="/medicaments" element={<SearchPage />} />
       <Route path="/medicaments/:id" element={<MedicinePage />} />
       <Route path="/reminders/" element={<RemindersPage />} />
+      <Route
+        path="/reminders/create/:medicamentId"
+        element={<CreateReminderPage />}
+      />
+      <Route path="/reminders/create" element={<CreateReminderPage />} />
     </Routes>
   );
 }

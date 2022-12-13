@@ -48,7 +48,7 @@ const MedicinePage = () => {
                   {medicament.name}
                 </Heading>
 
-                <Link to="/">
+                <Link to={`/reminders/create/${id}`}>
                   <Text>Создать напоминание</Text>
                 </Link>
               </Pane>

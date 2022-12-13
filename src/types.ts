@@ -42,3 +42,11 @@ export interface IAvailability {
     };
   };
 }
+
+export interface IReminder {
+  startDate: string;
+  endDate: string;
+  count: number;
+  medicamentId: number;
+  username: string;
+}

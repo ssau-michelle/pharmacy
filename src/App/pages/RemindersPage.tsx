@@ -2,8 +2,9 @@ import { Heading, Pane, Paragraph, Spinner } from "evergreen-ui";
 import Header from "../components/Header";
 import { useEffect, useState } from "react";
 import { getReminders } from "../../api/reminders";
+import { IReminder } from "../../types";
 
-const RemindersList = (reminders: any) => {
+const RemindersList = ({ reminders }: { reminders: IReminder[] | null }) => {
   if (!reminders)
     return (
       <Pane flex={1} display="flex" justifyContent="center" alignItems="center">
@@ -22,7 +23,7 @@ const RemindersList = (reminders: any) => {
 };
 
 const RemindersPage = () => {
-  const [reminders, setReminders] = useState(null);
+  const [reminders, setReminders] = useState<IReminder[] | null>(null);
 
   useEffect(() => {
     const username = localStorage.getItem("username");
