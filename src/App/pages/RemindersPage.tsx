@@ -1,10 +1,26 @@
-import { Heading, Pane, Paragraph, Spinner, Table } from "evergreen-ui";
+import {
+  Heading,
+  IconButton,
+  Pane,
+  Paragraph,
+  Spinner,
+  Table,
+  TrashIcon,
+} from "evergreen-ui";
 import Header from "../components/Header";
 import { useEffect, useState } from "react";
-import { getReminders } from "../../api/reminders";
+import { apiGetReminders, deleteReminder } from "../../api/reminders";
 import { IReminder } from "../../types";
 
-const RemindersList = ({ reminders }: { reminders: IReminder[] | null }) => {
+interface IRemindersListProps {
+  reminders: IReminder[] | null;
+  onReminderDelete: (id: number) => void;
+}
+
+const RemindersList = ({
+  reminders,
+  onReminderDelete,
+}: IRemindersListProps) => {
   if (!reminders)
     return (
       <Pane flex={1} display="flex" justifyContent="center" alignItems="center">
@@ -27,6 +43,7 @@ const RemindersList = ({ reminders }: { reminders: IReminder[] | null }) => {
         <Table.TextHeaderCell>Время приёма</Table.TextHeaderCell>
         <Table.TextHeaderCell>Начало курса</Table.TextHeaderCell>
         <Table.TextHeaderCell>Окончание курса</Table.TextHeaderCell>
+        <Table.TextHeaderCell></Table.TextHeaderCell>
       </Table.Head>
 
       <Table.Body>
@@ -40,6 +57,14 @@ const RemindersList = ({ reminders }: { reminders: IReminder[] | null }) => {
               <Table.TextCell>{timeWithoutSecs}</Table.TextCell>
               <Table.TextCell>{r.startDate}</Table.TextCell>
               <Table.TextCell>{r.endDate}</Table.TextCell>
+
+              <Table.Cell justifyContent="flex-end">
+                <IconButton
+                  onClick={() => onReminderDelete(r.id)}
+                  icon={TrashIcon}
+                  intent="danger"
+                />
+              </Table.Cell>
             </Table.Row>
           );
         })}
@@ -52,6 +77,10 @@ const RemindersPage = () => {
   const [reminders, setReminders] = useState<IReminder[] | null>(null);
 
   useEffect(() => {
+    getReminders();
+  }, []);
+
+  const getReminders = () => {
     const username = localStorage.getItem("username");
 
     if (!username) {
@@ -59,10 +88,16 @@ const RemindersPage = () => {
       return;
     }
 
-    getReminders(username)
+    apiGetReminders(username)
       .then(({ data }) => setReminders(data))
       .catch((err) => console.error(err));
-  }, []);
+  };
+
+  const onReminderDelete = (id: number) => {
+    deleteReminder(id)
+      .then(() => getReminders())
+      .catch((err) => console.error(err));
+  };
 
   return (
     <Pane className="page">
@@ -78,7 +113,10 @@ const RemindersPage = () => {
           Мои напоминания
         </Heading>
 
-        <RemindersList reminders={reminders} />
+        <RemindersList
+          reminders={reminders}
+          onReminderDelete={onReminderDelete}
+        />
       </Pane>
     </Pane>
   );
