@@ -1,4 +1,5 @@
 import {
+  AddIcon,
   Heading,
   IconButton,
   Pane,
@@ -11,6 +12,7 @@ import Header from "../components/Header";
 import { useEffect, useState } from "react";
 import { apiGetReminders, deleteReminder } from "../../api/reminders";
 import { IReminder } from "../../types";
+import { useNavigate } from "react-router-dom";
 
 interface IRemindersListProps {
   reminders: IReminder[] | null;
@@ -76,6 +78,8 @@ const RemindersList = ({
 const RemindersPage = () => {
   const [reminders, setReminders] = useState<IReminder[] | null>(null);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     getReminders();
   }, []);
@@ -99,6 +103,10 @@ const RemindersPage = () => {
       .catch((err) => console.error(err));
   };
 
+  const onReminderAdd = () => {
+    navigate("/reminders/create");
+  };
+
   return (
     <Pane className="page">
       <Header type="reminders" />
@@ -109,9 +117,18 @@ const RemindersPage = () => {
         flex={1}
         flexDirection="column"
       >
-        <Heading size={800} marginBottom={30}>
-          Мои напоминания
-        </Heading>
+        <Pane display="flex">
+          <Heading size={800} marginBottom={30} marginRight={16}>
+            Мои напоминания
+          </Heading>
+
+          <IconButton
+            icon={AddIcon}
+            size="large"
+            borderRadius="50%"
+            onClick={onReminderAdd}
+          />
+        </Pane>
 
         <RemindersList
           reminders={reminders}

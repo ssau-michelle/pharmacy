@@ -24,7 +24,9 @@ const CreateReminderPage = () => {
 
   const [medicamentFromParam, setMedicamentFromParam] =
     useState<IMedicament | null>(null);
-  const [medicamentChosenId, setMedicamentChosenId] = useState(medicamentId);
+  const [medicamentItem, setMedicamentItem] = useState<IMedicamentItem | null>(
+    null
+  );
   const [medicamentItems, setMedicamentItems] = useState<
     IMedicamentItem[] | null
   >(null);
@@ -57,7 +59,7 @@ const CreateReminderPage = () => {
 
     const username = localStorage.getItem("username");
     if (
-      !medicamentChosenId ||
+      !medicamentItem ||
       !username ||
       !count ||
       !time ||
@@ -69,7 +71,7 @@ const CreateReminderPage = () => {
     }
 
     const body = {
-      medicamentId: +medicamentChosenId,
+      medicamentId: +medicamentItem.id,
       count,
       time,
       startDate,
@@ -101,6 +103,7 @@ const CreateReminderPage = () => {
               {medicamentItems &&
               (medicamentId ? medicamentFromParam : true) ? (
                 <Combobox
+                  openOnFocus
                   className="full-field"
                   initialSelectedItem={{
                     label: medicamentFromParam?.name,
@@ -108,7 +111,8 @@ const CreateReminderPage = () => {
                   }}
                   items={medicamentItems}
                   itemToString={(item) => (item ? item.label : "")}
-                  onChange={(selected) => setMedicamentChosenId(selected.id)}
+                  value={medicamentItem}
+                  onChange={(selected) => setMedicamentItem(selected)}
                   marginBottom={24}
                 />
               ) : (
@@ -180,11 +184,7 @@ const CreateReminderPage = () => {
                   appearance="primary"
                   width={120}
                   disabled={
-                    !medicamentChosenId ||
-                    !count ||
-                    !time ||
-                    !startDate ||
-                    !endDate
+                    !medicamentItem || !count || !time || !startDate || !endDate
                   }
                 >
                   Создать
