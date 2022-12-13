@@ -8,7 +8,6 @@ import {
   Text,
 } from "evergreen-ui";
 import Header from "../components/Header";
-import mockMedicineImage from "../../images/mockMedicineImage.png";
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { IAvailability, IMedicament } from "../../types";
@@ -40,7 +39,11 @@ const MedicinePage = () => {
       {medicament ? (
         <Pane className="container">
           <Pane display="flex">
-            <img src={mockMedicineImage} alt="medicine icon" width={200} />
+            <img
+              className="medicine-image"
+              src={`data:image/jpeg;base64,${medicament.image}`}
+              alt="medicine img"
+            />
 
             <Pane marginLeft={60}>
               <Pane display="flex" alignItems="center">
