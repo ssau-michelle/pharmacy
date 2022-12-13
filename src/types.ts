@@ -44,9 +44,10 @@ export interface IAvailability {
 }
 
 export interface IReminder {
+  id: number;
+  count: number;
   startDate: string;
   endDate: string;
-  count: number;
-  medicamentId: number;
-  username: string;
+  usr: any;
+  medicament: IMedicament;
 }

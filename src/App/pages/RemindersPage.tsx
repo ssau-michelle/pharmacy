@@ -1,4 +1,4 @@
-import { Heading, Pane, Paragraph, Spinner } from "evergreen-ui";
+import { Heading, Pane, Paragraph, Spinner, Table } from "evergreen-ui";
 import Header from "../components/Header";
 import { useEffect, useState } from "react";
 import { getReminders } from "../../api/reminders";
@@ -19,7 +19,30 @@ const RemindersList = ({ reminders }: { reminders: IReminder[] | null }) => {
       </Paragraph>
     );
 
-  return <div>Rems</div>;
+  return (
+    <Table>
+      <Table.Head paddingRight={0}>
+        <Table.TextHeaderCell>Название</Table.TextHeaderCell>
+        <Table.TextHeaderCell>Дозировка</Table.TextHeaderCell>
+        <Table.TextHeaderCell>Начало курса</Table.TextHeaderCell>
+        <Table.TextHeaderCell>Окончание курса</Table.TextHeaderCell>
+      </Table.Head>
+
+      <Table.Body>
+        {reminders.map((r, index) => (
+          <Table.Row key={index}>
+            <Table.TextCell>{r.medicament.name}</Table.TextCell>
+
+            <Table.TextCell>{r.count}</Table.TextCell>
+
+            <Table.TextCell>{r.startDate}</Table.TextCell>
+
+            <Table.TextCell isNumber>{r.endDate}</Table.TextCell>
+          </Table.Row>
+        ))}
+      </Table.Body>
+    </Table>
+  );
 };
 
 const RemindersPage = () => {
@@ -27,6 +50,7 @@ const RemindersPage = () => {
 
   useEffect(() => {
     const username = localStorage.getItem("username");
+
     if (!username) {
       console.error("No username found");
       return;
@@ -47,7 +71,7 @@ const RemindersPage = () => {
         flex={1}
         flexDirection="column"
       >
-        <Heading size={800} marginBottom={16}>
+        <Heading size={800} marginBottom={30}>
           Мои напоминания
         </Heading>
 
