@@ -30,3 +30,7 @@ export const getAllAvailabilities = (id: string) => {
     `/api/medicaments/getAllMedicamentAvailabilities/${id}`
   );
 };
+
+export const getAllMedicaments = () => {
+  return instance.get<IMedicament[]>(`/api/medicaments/all`);
+};

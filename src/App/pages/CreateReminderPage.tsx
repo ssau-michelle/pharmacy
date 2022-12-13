@@ -1,15 +1,33 @@
-import { Button, Heading, Pane, Select, TextInputField } from "evergreen-ui";
+import {
+  Button,
+  Combobox,
+  Heading,
+  Pane,
+  Select,
+  Spinner,
+  TextInputField,
+} from "evergreen-ui";
 import Header from "../components/Header";
 import { useNavigate, useParams } from "react-router-dom";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { getMedicament } from "../../api/pharmacies";
+import { getAllMedicaments, getMedicament } from "../../api/pharmacies";
 import { IMedicament } from "../../types";
 import { saveReminder } from "../../api/reminders";
+
+interface IMedicamentItem {
+  id: string;
+  label: string;
+}
 
 const CreateReminderPage = () => {
   const { medicamentId } = useParams();
 
-  const [medicament, setMedicament] = useState<IMedicament | null>(null);
+  const [medicamentFromParam, setMedicamentFromParam] =
+    useState<IMedicament | null>(null);
+  const [medicamentChosenId, setMedicamentChosenId] = useState(medicamentId);
+  const [medicamentItems, setMedicamentItems] = useState<
+    IMedicamentItem[] | null
+  >(null);
   const [count, setCount] = useState<number | undefined>(undefined);
   const [time, setTime] = useState<string | undefined>(undefined);
   const [startDate, setStartDate] = useState<string | undefined>(undefined);
@@ -18,10 +36,19 @@ const CreateReminderPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    getAllMedicaments()
+      .then(({ data }) => {
+        const items = data.map((m) => ({ id: m.id.toString(), label: m.name }));
+        setMedicamentItems(items);
+      })
+      .catch((err) => console.error(err));
+  }, []);
+
+  useEffect(() => {
     if (!medicamentId) return;
 
     getMedicament(medicamentId)
-      .then(({ data }) => setMedicament(data))
+      .then(({ data }) => setMedicamentFromParam(data))
       .catch((err) => console.error(err));
   }, [medicamentId]);
 
@@ -30,7 +57,7 @@ const CreateReminderPage = () => {
 
     const username = localStorage.getItem("username");
     if (
-      !medicamentId ||
+      !medicamentChosenId ||
       !username ||
       !count ||
       !time ||
@@ -42,7 +69,7 @@ const CreateReminderPage = () => {
     }
 
     const body = {
-      medicamentId: +medicamentId,
+      medicamentId: +medicamentChosenId,
       count,
       time,
       startDate,
@@ -71,14 +98,22 @@ const CreateReminderPage = () => {
         >
           <form onSubmit={onSubmitHandle}>
             <Pane width={600}>
-              <TextInputField
-                className="reminder-field"
-                display="flex"
-                justifyContent="space-between"
-                name="name"
-                label="Название лекарства"
-                value={medicament?.name}
-              />
+              {medicamentItems &&
+              (medicamentId ? medicamentFromParam : true) ? (
+                <Combobox
+                  className="full-field"
+                  initialSelectedItem={{
+                    label: medicamentFromParam?.name,
+                    id: medicamentFromParam?.id,
+                  }}
+                  items={medicamentItems}
+                  itemToString={(item) => (item ? item.label : "")}
+                  onChange={(selected) => setMedicamentChosenId(selected.id)}
+                  marginBottom={24}
+                />
+              ) : (
+                <Spinner size={24} />
+              )}
 
               <Pane display="flex" justifyContent="space-between" gap={50}>
                 <TextInputField
@@ -145,7 +180,11 @@ const CreateReminderPage = () => {
                   appearance="primary"
                   width={120}
                   disabled={
-                    !medicamentId || !count || !time || !startDate || !endDate
+                    !medicamentChosenId ||
+                    !count ||
+                    !time ||
+                    !startDate ||
+                    !endDate
                   }
                 >
                   Создать
