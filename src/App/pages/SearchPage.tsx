@@ -18,9 +18,11 @@ import { Link } from "react-router-dom";
 const SearchFields = () => {
   return (
     <>
-      <Heading size={800}>Поиск</Heading>
+      <Heading size={800} marginBottom={80}>
+        Поиск
+      </Heading>
 
-      <Pane flex={1} display="flex" justifyContent="center" alignItems="center">
+      <Pane flex={1} display="flex" justifyContent="center">
         <form>
           <Pane width={800}>
             <TextInputField

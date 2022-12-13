@@ -79,7 +79,7 @@ const MedicinePage = () => {
           </Heading>
 
           {availabilities ? (
-            <Table>
+            <Table marginBottom={40}>
               <Table.Head paddingRight={0}>
                 <Table.TextHeaderCell>Аптека</Table.TextHeaderCell>
                 <Table.TextHeaderCell flex={2}>Адрес</Table.TextHeaderCell>
