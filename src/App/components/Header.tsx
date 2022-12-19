@@ -27,13 +27,15 @@ const Header = ({ type }: IProps) => {
         justifyContent="space-between"
       >
         <Pane display="flex" flexDirection="column">
-          <Pane display="flex" alignItems="center">
-            <img src={logo} alt="Logo" width={60} />
+          <Link to="/medicaments" className="link-not-underlined">
+            <Pane display="flex" alignItems="center">
+              <img src={logo} alt="Logo" width={60} />
 
-            <Heading is="h1" size={900} marginLeft={8}>
-              Моя аптека
-            </Heading>
-          </Pane>
+              <Heading is="h1" size={900} marginLeft={8}>
+                Моя аптека
+              </Heading>
+            </Pane>
+          </Link>
 
           <Link to="/help">О системе</Link>
         </Pane>
