@@ -30,67 +30,67 @@ const LoginPage = () => {
   };
 
   return (
-    <Pane
-      display="flex"
-      width="100%"
-      height="100%"
-      justifyContent="center"
-      alignItems="center"
-    >
-      <form onSubmit={onSubmitHandle}>
-        <Pane display="flex" flexDirection="column" gap={20}>
-          <Pane textAlign="center">
-            <img src={logo} alt="Logo" />
+    <Pane display="flex" width="100%" height="100%" flexDirection="column">
+      <Pane display="flex" flex={1} justifyContent="center" alignItems="center">
+        <form onSubmit={onSubmitHandle}>
+          <Pane display="flex" flexDirection="column" gap={20}>
+            <Pane textAlign="center">
+              <img src={logo} alt="Logo" />
 
-            <Heading is="h1" size={900}>
-              Моя аптека
-            </Heading>
-          </Pane>
+              <Heading is="h1" size={900}>
+                Моя аптека
+              </Heading>
+            </Pane>
 
-          <Pane display="flex" flexDirection="column" gap={8}>
-            <TextInput
-              name="login"
-              placeholder="Логин"
-              value={username}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setUsername(e.target.value)
-              }
-            />
+            <Pane display="flex" flexDirection="column" gap={8}>
+              <TextInput
+                name="login"
+                placeholder="Логин"
+                value={username}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setUsername(e.target.value)
+                }
+              />
 
-            <TextInput
-              name="password"
-              placeholder="Пароль"
-              type="password"
-              value={password}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setPassword(e.target.value)
-              }
-            />
-          </Pane>
+              <TextInput
+                name="password"
+                placeholder="Пароль"
+                type="password"
+                value={password}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setPassword(e.target.value)
+                }
+              />
+            </Pane>
 
-          <Pane
-            display="flex"
-            flexDirection="column"
-            alignItems="center"
-            gap={8}
-          >
-            <Button
-              type="submit"
-              appearance="primary"
-              width="100%"
-              disabled={!username || !password}
+            <Pane
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              gap={8}
             >
-              Войти
-            </Button>
+              <Button
+                type="submit"
+                appearance="primary"
+                width="100%"
+                disabled={!username || !password}
+              >
+                Войти
+              </Button>
 
-            <Link to="/register">
-              <Text>Зарегистироваться</Text>
-            </Link>
+              <Link to="/register">
+                <Text>Зарегистироваться</Text>
+              </Link>
 
-            {error && <Alert intent="danger" title={error}></Alert>}
+              {error && <Alert intent="danger" title={error}></Alert>}
+            </Pane>
           </Pane>
-        </Pane>
-      </form>
+        </form>
+      </Pane>
+
+      <Pane textAlign="center" marginBottom={40}>
+        <Link to="/help">О системе</Link>
+      </Pane>
     </Pane>
   );
 };

@@ -7,6 +7,7 @@ import SearchPage from "./pages/SearchPage";
 import MedicinePage from "./pages/MedicinePage";
 import RemindersPage from "./pages/RemindersPage";
 import CreateReminderPage from "./pages/CreateReminderPage";
+import HelpPage from "./pages/HelpPage";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         element={<CreateReminderPage />}
       />
       <Route path="/reminders/create" element={<CreateReminderPage />} />
+      <Route path="/help" element={<HelpPage />} />
     </Routes>
   );
 }

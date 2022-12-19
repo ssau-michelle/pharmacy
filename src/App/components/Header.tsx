@@ -1,6 +1,6 @@
 import { Button, Heading, Pane } from "evergreen-ui";
 import logo from "../../images/logo.svg";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 interface IProps {
   type?: "search" | "reminders";
@@ -26,12 +26,16 @@ const Header = ({ type }: IProps) => {
         alignItems="center"
         justifyContent="space-between"
       >
-        <Pane display="flex" alignItems="center">
-          <img src={logo} alt="Logo" width={60} />
+        <Pane display="flex" flexDirection="column">
+          <Pane display="flex" alignItems="center">
+            <img src={logo} alt="Logo" width={60} />
 
-          <Heading is="h1" size={900} marginLeft={8}>
-            Моя аптека
-          </Heading>
+            <Heading is="h1" size={900} marginLeft={8}>
+              Моя аптека
+            </Heading>
+          </Pane>
+
+          <Link to="/help">О системе</Link>
         </Pane>
 
         {type === "search" && (
